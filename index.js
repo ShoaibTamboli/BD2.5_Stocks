@@ -202,7 +202,7 @@ function sortHighToLow(stockdata1, stockdata2) {
 }
 
 app.get('/stocks/sort/pricing', (req, res) => {
-  const pricing = parseFloat(req.query.pricing);
+  const pricing = req.query.pricing.toLowerCase();
   const stocksData = stocks.slice();
   if (pricing === 'low-to-high') {
     stocksData.sort(sortLowToHigh);
@@ -233,8 +233,8 @@ function lowToHigh(stock1, stock2) {
   return stock1.growth - stock2.growth;
 }
 
-app.get('/stocks/sort/growth', (req, res) => {
-  const growth = parseFloat(req.query.growth);
+app.get('/stocks/sort/growth/:growth', (req, res) => {
+  const growth = req.params.growth.toLowerCase();
   const stocksData = stocks.slice();
   if (growth === 'high-to-low') {
     stocksData.sort(highToLow);
@@ -289,8 +289,8 @@ function filterByIndustry(e, industry) {
   return e.industry.toLowerCase() === industry;
 }
 
-app.get('/stocks/filter/industry', (req, res) => {
-  const industry = req.query.industry.toLowerCase();
+app.get('/stocks/filter/industry/:industry', (req, res) => {
+  const industry = req.params.industry.toLowerCase();
   const stockbyIndustry = stocks.filter((e) => filterByIndustry(e, industry));
   res.json({ stocks: stockbyIndustry });
 });
