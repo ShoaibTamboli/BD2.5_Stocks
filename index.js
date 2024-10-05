@@ -201,8 +201,8 @@ function sortHighToLow(stockdata1, stockdata2) {
   return stockdata2.price - stockdata1.price;
 }
 
-app.get('/stocks/sort/pricing/:requestedPricing', (req, res) => {
-  const pricing = req.params.requestedPricing.toLowerCase();
+app.get('/stocks/sort/pricing', (req, res) => {
+  const pricing = parseFloat(req.query.pricing);
   const stocksData = stocks.slice();
   if (pricing === 'low-to-high') {
     stocksData.sort(sortLowToHigh);
@@ -233,8 +233,8 @@ function lowToHigh(stock1, stock2) {
   return stock1.growth - stock2.growth;
 }
 
-app.get('/stocks/sort/growth/:growth', (req, res) => {
-  const growth = req.params.growth.toLowerCase();
+app.get('/stocks/sort/growth', (req, res) => {
+  const growth = parseFloat(req.query.growth);
   const stocksData = stocks.slice();
   if (growth === 'high-to-low') {
     stocksData.sort(highToLow);
@@ -289,8 +289,8 @@ function filterByIndustry(e, industry) {
   return e.industry.toLowerCase() === industry;
 }
 
-app.get('/stocks/filter/industry/:industry', (req, res) => {
-  const industry = req.params.industry.toLowerCase();
+app.get('/stocks/filter/industry', (req, res) => {
+  const industry = req.query.industry.toLowerCase();
   const stockbyIndustry = stocks.filter((e) => filterByIndustry(e, industry));
   res.json({ stocks: stockbyIndustry });
 });
